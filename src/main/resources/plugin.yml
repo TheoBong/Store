@@ -1,0 +1,5 @@
+name: Store
+version: ${store.desc}
+description: Store Plugin
+main: io.github.Store
+author: [Cow]
