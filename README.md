@@ -10,8 +10,9 @@ Features:
 * **Free** - available for download and usage at no cost, and permissively licensed so it can remain free forever.
 
 ## Frequently Asked Questions
-* **What are the commands?** - use /store help to find all commands and usages.
+* **What are the commands?** - use /store help to find all commands and usages. (admin commands only show up if you have perms)
 * **I have a PayPal buisness account, how do I get the secret and client-id?** - create an APP here: https://developer.paypal.com/developer/applications
+* **What are the permission nodes?** store.admin to use "/store reload" & "/lookup"
 * **I found a bug, what do I do?** - open a new issue at https://github.com/Cowings/Store/issues
 
 ## Building
@@ -24,7 +25,7 @@ Store Plugin uses Maven to handle dependencies & building.
 #### Compiling from source
 ```sh
 git clone https://github.com/Cowings/Store
-cd Echo/
+cd Store/
 mvn clean install
 ```
 
@@ -42,4 +43,4 @@ Please make sure to have bug fixes/improvements in seperate pull requests from n
 * Optimizations
 
 ## License
-Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/Cowings/Echo/blob/master/LICENSE.txt) for more info.
+Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/Cowings/Store/blob/master/LICENSE.txt) for more info.

@@ -97,6 +97,9 @@ public class Store extends JavaPlugin {
         this.getServer().getScheduler().cancelTasks(this);
     }
 
+    public void reloadConfig() {
+        config = YamlConfiguration.loadConfiguration(configFile);
+    }
 
     public Store registerCommand(BaseCommand command) {
         commands.add(command);

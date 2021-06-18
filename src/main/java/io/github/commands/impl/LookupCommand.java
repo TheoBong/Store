@@ -18,8 +18,13 @@ public class LookupCommand extends BaseCommand {
 
     @Override
     protected void execute(final CommandSender sender, final String[] args) {
+        if (!sender.hasPermission("store.admin")) {
+            sender.sendMessage(ChatColor.RED + "No permission.");
+            return;
+        }
+
         if (args.length < 2) {
-            sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID (with dashes)>");
+            sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID>");
             return;
         }
 
@@ -47,7 +52,7 @@ public class LookupCommand extends BaseCommand {
                                 .replace("{cost}", (double) jsonObject.get("cost") + "")
                                 .replace("{expiry}", (long) jsonObject.get("expiry") + "")));
             } else { //invalid
-                sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID (with dashes)>");
+                sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID>");
             }
         } else if (args[0].equals("historical")) {
             if (args[1].length() == 36) { //player uuid
@@ -75,7 +80,7 @@ public class LookupCommand extends BaseCommand {
                                 .replace("{created}", (long) jsonObject.get("created") + "")
                                 .replace("{captured}", (long) jsonObject.get("captured") + "")));
             } else { //invalid
-                sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID (with dashes)>");
+                sender.sendMessage(ChatColor.RED + "Usage: /lookup <pending/historical> <orderId/playerUUID>");
             }
         }
 
