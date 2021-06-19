@@ -20,10 +20,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class Store extends JavaPlugin {
     public static Store INSTANCE;
@@ -97,8 +100,10 @@ public class Store extends JavaPlugin {
         this.getServer().getScheduler().cancelTasks(this);
     }
 
+    @Override
     public void reloadConfig() {
-        config = YamlConfiguration.loadConfiguration(configFile);
+        super.reloadConfig();
+        System.out.println("reloaded config");
     }
 
     public Store registerCommand(BaseCommand command) {

@@ -9,6 +9,19 @@ CATEGORY_MENU_ROWS: 3
 CHECK_EVERY: 300 #How often to check pending transactions (in seconds) - Default: 5 minutes
 EXPIRE_AFTER: 3600000 #When a pending transaction will be removed (in milliseconds) - Default: 1 hour
 
+PAYMENT_MESSAGE: "&fHere is your link for ${cost-before-fees} plus PayPal fees (${cost-after-fees}):" #Placeholders: {cost-before-fees}, {cost-after-fees}, {link}
+
+LINK_BUTTON: "&a&l[CHECKOUT] &f"
+LINK_BUTTON_HOVER: "&aClick to go to checkout"
+
+CANCEL_BUTTON: "&c&l[CANCEL] &f"
+CANCEL_BUTTON_HOVER: "&cClick to cancel"
+CANCEL_BUTTON_COMMAND: "/cancelitem"
+
+TIMER_BUTTON: "&6&l[TIMER] &f"
+TIMER_BUTTON_HOVER: "&6Click to check timer"
+TIMER_BUTTON_COMMAND: "/expiration"
+
 STORE_COMMAND:
   ENABLED: true
   MAIN_COMMAND: "store"

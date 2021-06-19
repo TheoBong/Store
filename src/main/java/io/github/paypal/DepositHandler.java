@@ -3,7 +3,9 @@ package io.github.paypal;
 import com.paypal.http.HttpResponse;
 import com.paypal.orders.*;
 import io.github.Store;
+import io.github.utils.ClickableMessage;
 import io.github.utils.PendingTransactions;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
@@ -85,8 +87,29 @@ public class DepositHandler extends PaypalClient {
             PendingTransactions pendingTransactions = store.getPendingTransactions();
             pendingTransactions.addPendingTransaction(finalRepsonse.result().id(), pendingTransaction);
 
-            player.sendMessage(ChatColor.GREEN + "Here is your link for $" + df.format(cost) + " plus PayPal fees:");
-            player.sendMessage(ChatColor.WHITE + "" + ChatColor.UNDERLINE + finalRepsonse.result().links().get(1).href());
+            final ClickableMessage link_button = new ClickableMessage(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("LINK_BUTTON")))
+                    .hover(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("LINK_BUTTON_HOVER")))
+                    .link(finalRepsonse.result().links().get(1).href());
+
+            link_button.add(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("CANCEL_BUTTON")))
+                    .hover(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("CANCEL_BUTTON_HOVER")))
+                    .command(store.getConfig().getString("CANCEL_BUTTON_COMMAND"));
+
+            link_button.add(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("TIMER_BUTTON")))
+                    .hover(ChatColor.translateAlternateColorCodes('&', store.getConfig().getString("TIMER_BUTTON_HOVER")))
+                    .command(store.getConfig().getString("TIMER_BUTTON_COMMAND"));
+
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    store.getConfig().getString("PAYMENT_MESSAGE")
+                            .replace("{link}", finalRepsonse.result().links().get(1).href())
+                            .replace("{cost-before-fees}", df.format(cost))
+                            .replace("{cost-after-fees}", df.format(total))));
+
+            link_button.sendToPlayer(player);
+
+
+//            player.sendMessage(ChatColor.GREEN + "Here is your link for $" + df.format(cost) + " plus PayPal fees:");
+//            player.sendMessage(ChatColor.WHITE + "" + ChatColor.UNDERLINE + finalRepsonse.result().links().get(1).href());
         });
     }
 }
