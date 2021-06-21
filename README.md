@@ -25,6 +25,10 @@ Store Plugin uses Maven to handle dependencies & building.
 #### Compiling from source
 ```sh
 git clone https://github.com/Cowings/Store
+git clone https://github.com/Derkades/Derkutils/tree/legacy
+cd Derkutils
+mvn clean install
+cd
 cd Store/
 mvn clean install
 ```
