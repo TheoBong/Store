@@ -1,7 +1,7 @@
 package io.github.utils;
 
 public class TimeUtil {
-    public static String formatTimeMillis(final long millis) {
+    public static String formatTimeMillis(long millis) {
         long seconds = millis / 1000L;
 
         if (seconds <= 0) {
@@ -14,10 +14,10 @@ public class TimeUtil {
         minutes = minutes % 60;
         long day = hours / 24;
         hours = hours % 24;
-        final long years = day / 365;
+        long years = day / 365;
         day = day % 365;
 
-        final StringBuilder time = new StringBuilder();
+        StringBuilder time = new StringBuilder();
 
         if (years != 0) {
             time.append(years).append(years == 1 ? "y " : "y ");

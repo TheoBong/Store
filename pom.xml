@@ -23,7 +23,6 @@
     </repositories>
 
     <dependencies>
-
         <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>

@@ -1,13 +1,13 @@
 package io.github;
 
 import io.github.commands.BaseCommand;
+import io.github.commands.impl.CancelCommand;
 import io.github.commands.impl.LookupCommand;
 import io.github.commands.impl.StoreCommand;
+import io.github.commands.impl.TimerCommand;
 import io.github.paypal.CaptureTask;
 import io.github.utils.PendingTransactions;
 import io.github.utils.TransactionHistory;
-import io.github.commands.impl.CancelCommand;
-import io.github.commands.impl.TimerCommand;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -16,45 +16,30 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 public class Store extends JavaPlugin {
-    public static Store INSTANCE;
-    private Set<BaseCommand> commands;
     private CommandMap commandMap;
-    @Getter @Setter Boolean serverScanning = false;
+    @Getter @Setter private Boolean serverScanning = false;
 
-    @Getter
-    PendingTransactions pendingTransactions;
-    @Getter
-    TransactionHistory transactionHistory;
+    @Getter private PendingTransactions pendingTransactions;
+    @Getter private TransactionHistory transactionHistory;
 
-    File configFile;
     @Getter private YamlConfiguration config;
 
     @Override
     public void onEnable() {
-        INSTANCE = this;
-
-        commands = new HashSet<>();
-
-        pendingTransactions = new PendingTransactions();
+        pendingTransactions = new PendingTransactions(this);
         pendingTransactions.importConfig();
 
-        transactionHistory = new TransactionHistory();
+        transactionHistory = new TransactionHistory(this);
         transactionHistory.importConfig();
 
-        configFile = new File(getDataFolder(), "config.yml");
+        File configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) saveResource("config.yml", false);
         config = YamlConfiguration.loadConfiguration(configFile);
 
@@ -90,31 +75,23 @@ public class Store extends JavaPlugin {
             registerCommand(new LookupCommand(this));
         }
 
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new CaptureTask(this), 20L * config.getInt("CHECK_EVERY"), 20L * config.getInt("CHECK_EVERY"));
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new CaptureTask(this), 20L * config.getInt("CHECK_EVERY"), 20L * config.getInt("CHECK_EVERY"));
     }
 
     @Override
     public void onDisable() {
         pendingTransactions.exportConfig();
         transactionHistory.exportConfig();
-        this.getServer().getScheduler().cancelTasks(this);
+        getServer().getScheduler().cancelTasks(this);
     }
 
-    @Override
-    public void reloadConfig() {
-        super.reloadConfig();
-        System.out.println("reloaded config");
-    }
-
-    public Store registerCommand(BaseCommand command) {
-        commands.add(command);
+    public void registerCommand(BaseCommand command) {
         commandMap.register(command.getName(), command);
-        return this;
     }
 
-    public static ItemBuilder getItemFromMaterialString(final Player player, final String materialString) {
+    public static ItemBuilder getItemFromMaterialString(Player player, String materialString) {
         if (materialString.startsWith("head:")) {
-            final String owner = materialString.split(":")[1];
+            String owner = materialString.split(":")[1];
             if (owner.equals("auto")) {
                 return new ItemBuilder(player.getName());
             } else {
@@ -122,9 +99,9 @@ public class Store extends JavaPlugin {
             }
         } else {
             try {
-                final Material material = Material.valueOf(materialString.toUpperCase());
+                Material material = Material.valueOf(materialString.toUpperCase());
                 return new ItemBuilder(material);
-            } catch (final IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 player.sendMessage("Invalid item name " + materialString.toUpperCase());
                 player.sendMessage("https://github.com/ServerSelectorX/ServerSelectorX/wiki/Item-names");
                 return new ItemBuilder(Material.COBBLESTONE);

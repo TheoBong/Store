@@ -15,12 +15,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class PendingTransactions {
-
-    File folder = Store.INSTANCE.getDataFolder();
+    File folder;
     String location = "pending.json";
     Map<String, JSONObject> transactions;
 
-    public PendingTransactions() {
+    public PendingTransactions(Store store) {
+        folder = store.getDataFolder();
         transactions = new HashMap<String, JSONObject>();
     }
 

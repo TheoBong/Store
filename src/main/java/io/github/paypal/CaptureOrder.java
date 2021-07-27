@@ -2,7 +2,8 @@ package io.github.paypal;
 
 import com.paypal.http.HttpResponse;
 import com.paypal.http.exceptions.HttpException;
-import com.paypal.orders.*;
+import com.paypal.orders.Order;
+import com.paypal.orders.OrdersCaptureRequest;
 import io.github.Store;
 import io.github.utils.PendingTransactions;
 import io.github.utils.TransactionHistory;
@@ -16,13 +17,17 @@ import java.io.IOException;
 import java.util.List;
 
 public class CaptureOrder {
-    public static void main(Store store, String orderId, String item, String playerUUID, double cost, long expiry) {
 
-        Order order = null;
+    @SuppressWarnings("unchecked")
+    public static void capture(Store store, String orderId, String item, String playerUUID, double cost, long expiry) {
+
+        Order order;
         OrdersCaptureRequest request = new OrdersCaptureRequest(orderId);
 
         try {
-            HttpResponse<Order> response = PaypalClient.client.execute(request);
+            PaypalClient paypalClient = new PaypalClient(store);
+
+            HttpResponse<Order> response = paypalClient.client.execute(request);
             order = response.result();
             System.out.println("Captured Purchase! Info: " + order.purchaseUnits().get(0).payments().captures().get(0).id());
             order.purchaseUnits().get(0).payments().captures().get(0).links()

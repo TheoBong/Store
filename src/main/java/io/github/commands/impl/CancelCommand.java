@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class CancelCommand extends BaseCommand {
 
-    private Store store;
+    private final Store store;
 
     public CancelCommand(Store store) {
         super(store.getConfig().getString("CANCEL_COMMAND.MAIN_COMMAND"));
@@ -17,7 +17,7 @@ public class CancelCommand extends BaseCommand {
     }
 
     @Override
-    protected void execute(final CommandSender sender, final String[] args) {
+    protected void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 

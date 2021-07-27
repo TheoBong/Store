@@ -15,12 +15,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class TransactionHistory {
-
-    File folder = Store.INSTANCE.getDataFolder();
+    File folder;
     String location = "transactions.json";
     Map<String, JSONObject> transactions;
 
-    public TransactionHistory() {
+    public TransactionHistory(Store store) {
+        folder = store.getDataFolder();
         transactions = new HashMap<String, JSONObject>();
     }
 

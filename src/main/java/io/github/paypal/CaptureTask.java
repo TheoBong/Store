@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import java.util.Map;
 
 public class CaptureTask implements Runnable {
-    private Store store;
+    private final Store store;
 
     public CaptureTask(Store store) {
         this.store = store;
@@ -30,10 +30,10 @@ public class CaptureTask implements Runnable {
             String item = (String) pendingTransaction.get("item");
 
             if (expiry < System.currentTimeMillis()) {
-                PendingTransactions pendingTransactions = Store.INSTANCE.getPendingTransactions();
+                PendingTransactions pendingTransactions = store.getPendingTransactions();
                 pendingTransactions.removePendingTransaction(orderId);
             } else {
-                CaptureOrder.main(store, orderId, item, player, cost, expiry);
+                CaptureOrder.capture(store, orderId, item, player, cost, expiry);
             }
         }
     }

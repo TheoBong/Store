@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class StoreCommand extends BaseCommand {
 
-    private Store store;
+    private final Store store;
 
     public StoreCommand(Store store) {
         super(store.getConfig().getString("STORE_COMMAND.MAIN_COMMAND"));
@@ -18,7 +18,7 @@ public class StoreCommand extends BaseCommand {
     }
 
     @Override
-    protected void execute(final CommandSender sender, final String[] args) {
+    protected void execute(CommandSender sender, String[] args) {
         if (args.length >= 1) {
             if (args[0].equals("reload") && sender.hasPermission("store.admin")) {
                 store.reloadConfig();
@@ -54,7 +54,7 @@ public class StoreCommand extends BaseCommand {
                 return;
             }
 
-            new CategoryMenu(player, store.getConfig());
+            new CategoryMenu(store, player);
         } else {
             sender.sendMessage("Only players can do this.");
         }

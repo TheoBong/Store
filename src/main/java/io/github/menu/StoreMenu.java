@@ -1,7 +1,5 @@
 package io.github.menu;
 
-import java.util.List;
-
 import io.github.Store;
 import io.github.paypal.DepositHandler;
 import org.bukkit.ChatColor;
@@ -9,24 +7,27 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import xyz.derkades.derkutils.bukkit.Colors;
 import xyz.derkades.derkutils.bukkit.ItemBuilder;
 import xyz.derkades.derkutils.bukkit.PlaceholderUtil;
 import xyz.derkades.derkutils.bukkit.menu.IconMenu;
 import xyz.derkades.derkutils.bukkit.menu.OptionClickEvent;
 
+import java.util.List;
+
 public class StoreMenu extends IconMenu {
 
     private final FileConfiguration config;
+    private final Store store;
 
-    public StoreMenu(final Player player, final String name, final FileConfiguration config) {
-        super(Store.INSTANCE, Colors.parseColors(config.getString("CATEGORIES." + name + ".DISPLAY")), config.getInt("CATEGORIES." + name + ".ROWS"), player);
+    public StoreMenu(Store store, Player player, String name) {
+        super(store, Colors.parseColors(store.getConfig().getString("CATEGORIES." + name + ".DISPLAY")), store.getConfig().getInt("CATEGORIES." + name + ".ROWS"), player);
 
-        this.config = config;
+        this.store = store;
+        this.config = store.getConfig();
 
-        for (final String key : config.getConfigurationSection("ITEMS").getKeys(false)) {
-            final ConfigurationSection section = config.getConfigurationSection("ITEMS." + key);
+        for (String key : config.getConfigurationSection("ITEMS").getKeys(false)) {
+            ConfigurationSection section = config.getConfigurationSection("ITEMS." + key);
 
             int position;
             String materialString;
@@ -50,38 +51,38 @@ public class StoreMenu extends IconMenu {
                 return;
             }
 
-            final ItemBuilder builder = Store.getItemFromMaterialString(player, materialString);
+            ItemBuilder builder = Store.getItemFromMaterialString(player, materialString);
 
             builder.amount(amount);
             builder.coloredName(PlaceholderUtil.parsePapiPlaceholders(player, display));
             builder.coloredLore(PlaceholderUtil.parsePapiPlaceholders(player, lore));
 
-            final ItemStack item = builder.create();
+            ItemStack item = builder.create();
 
             if (position < 0) {
-                for (int i = 0; i < this.getInventory().getSize(); i++) {
-                    if (!this.hasItem(i)) {
+                for (int i = 0; i < getInventory().getSize(); i++) {
+                    if (!hasItem(i)) {
                         if (category.equals(name)) {
-                            this.addItem(i, item);
+                            addItem(i, item);
                         }
                     }
                 }
             } else {
                 if (category.equals(name)) {
-                    this.addItem(position, item);
+                    addItem(position, item);
                 }
             }
         }
     }
 
     @Override
-    public boolean onOptionClick(final OptionClickEvent event) {
-        final int slot = event.getPosition();
+    public boolean onOptionClick(OptionClickEvent event) {
+        int slot = event.getPosition();
         ItemStack itemStack = event.getItemStack();
         ConfigurationSection subSection = null;
 
-        for (final String key : config.getConfigurationSection("ITEMS").getKeys(false)) {
-            final ConfigurationSection section = config.getConfigurationSection("ITEMS." + key);
+        for (String key : config.getConfigurationSection("ITEMS").getKeys(false)) {
+            ConfigurationSection section = config.getConfigurationSection("ITEMS." + key);
             String translated = ChatColor.translateAlternateColorCodes('&', section.getString("DISPLAY"));
 
             if (section.getInt("POSITION") == slot && translated.equals(itemStack.getItemMeta().getDisplayName())) {
@@ -89,12 +90,12 @@ public class StoreMenu extends IconMenu {
             }
         }
 
-        final Player player = event.getPlayer();
+        Player player = event.getPlayer();
 
         double cost = subSection.getDouble("COST");
         String item = subSection.getName();
 
-        new DepositHandler((Store) Store.INSTANCE).createDepositOrder(cost, item, player);
+        new DepositHandler(store).createDepositOrder(cost, item, player);
         return true;
     }
 }

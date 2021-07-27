@@ -6,10 +6,12 @@ BRAND_NAME: "Your Server"
 CATEGORY_MENU_TITLE: "&aCategories"
 CATEGORY_MENU_ROWS: 3
 
+
 CHECK_EVERY: 300 #How often to check pending transactions (in seconds) - Default: 5 minutes
 EXPIRE_AFTER: 3600000 #When a pending transaction will be removed (in milliseconds) - Default: 1 hour
 
-PAYMENT_MESSAGE: "&fHere is your link for ${cost-before-fees} plus PayPal fees (${cost-after-fees}):" #Placeholders: {cost-before-fees}, {cost-after-fees}, {link}
+#Placeholders: {cost-before-fees}, {cost-after-fees}, {link}
+PAYMENT_MESSAGE: "&fHere is your link for ${cost-before-fees} plus PayPal fees (${cost-after-fees}):"
 
 LINK_BUTTON: "&a&l[CHECKOUT] &f"
 LINK_BUTTON_HOVER: "&aClick to go to checkout"
@@ -46,48 +48,219 @@ TIMER_COMMAND:
 LOOKUP_COMMAND:
   ENABLED: true
   MAIN_COMMAND: "lookup"
-  PENDING_MESSAGE: "{player}, {item}, {cost}, {expiry}"
-  HISTORIC_MESSAGE: "{player}, {item}, {cost}, {created}, {captured}"
+  PENDING_MESSAGE: "&a{player} has a pending transaction &7(Item: {item}, Cost: {cost}, Expiry: {expiry})"
+  HISTORIC_MESSAGE: "&a{player} has a historic transaction &7(Item: {item}, Cost: {cost}, Created: {created}, Paid: {captured})"
   ALIASES:
     - "transactionlookup"
     - "lookuporder"
 
+#ITEM NAMES: https://helpch.at/docs/1.8/org/bukkit/Material.html
+
+#Note: Display cannot be identical to any other item's display. Use a random color code in front of another to bypass.
+#Example: Good = "&f&cVIP" and "&cVIP" | Bad = "&cVIP" and "&cVIP"
+
 CATEGORIES:
   ranks:
     POSITION: 12
-    MATERIAL: "STONE"
-    DISPLAY: "&cRanks"
-    ROWS: 2
+    MATERIAL: "DIAMOND"
+    DISPLAY: "&b&lRanks"
+    ROWS: 3
     LORE:
-      - "test1"
-      - "test2"
+      - "&7Purchase a donator rank to support the server!"
+      - "&7Click this button to see your options!"
+  tags:
+    POSITION: 13
+    MATERIAL: "REDSTONE"
+    DISPLAY: "&6&lTags"
+    ROWS: 3
+    LORE:
+      - "&7Purchase a chat Tag for $5 to support the server!"
+      - "&7Click this button to see your options!"
+  misc:
+    POSITION: 14
+    MATERIAL: "GOLD_INGOT"
+    DISPLAY: "&d&lMiscellaneous"
+    ROWS: 3
+    LORE:
+      - "&7Purchase a miscellaneous item to support the server!"
+      - "&7Click this button to see your options!"
 
 ITEMS:
+
+  #Ranks
+
   VIP:
-    POSITION: 3
+    POSITION: 10
     PASS_FEE: true
-    MATERIAL: "STONE"
-    #Note: Display cannot be identical to any other item's display. Use a random color code in front of another to bypass.
-    #Example: Good = "&f&cVIP" and "&cVIP" | Bad = "&cVIP" and "&cVIP"
-    DISPLAY: "&cVIP"
+    MATERIAL: "STONE_SWORD"
+    DISPLAY: "&a&lVIP Rank ($10)"
     CATEGORY: "ranks"
     COST: 10
     COMMANDS:
-      - "rank add {player} gay"
-      - "bc {player} did gay"
+      - "pex user {player} group set VIP"
+      - "broadcast &a&l{player} purchased VIP rank and supported the server!"
     LORE:
-      - "test1"
-      - "test2"
-  MVP:
-    POSITION: 5
+      - "&7Purchase VIP rank for $10 and get awesome perks!"
+      - "&7VIPs are able to use /nick, /heal, and /feed!"
+  VIP+:
+    POSITION: 12
     PASS_FEE: true
-    MATERIAL: "STONE"
-    DISPLAY: "&4MVP"
+    MATERIAL: "IRON_SWORD"
+    DISPLAY: "&a&lVIP+ Rank ($15)"
+    CATEGORY: "ranks"
+    COST: 15
+    COMMANDS:
+      - "pex user {player} group set VIP+"
+      - "broadcast &a&l{player} purchased VIP+ rank and supported the server!"
+    LORE:
+      - "&7Purchase VIP+ rank for $15 and get awesome perks!"
+      - "&7VIP+s are able to use /nick, /heal, /fly, and /feed!"
+  MVP:
+    POSITION: 14
+    PASS_FEE: true
+    MATERIAL: "GOLD_SWORD"
+    DISPLAY: "&b&lMVP Rank ($20)"
     CATEGORY: "ranks"
     COST: 20
     COMMANDS:
-      - "rank add {player} gay"
-      - "bc {player} did gay"
+      - "pex user {player} group set MVP"
+      - "broadcast &b&l{player} purchased MVP rank and supported the server!"
     LORE:
-      - "test1"
-      - "test2"
+      - "&7Purchase MVP rank for $20 and get awesome perks!"
+      - "&7MVPs are able to use /nick, /heal, /home, /fly, and /feed!"
+  MVP+:
+    POSITION: 16
+    PASS_FEE: true
+    MATERIAL: "DIAMOND_SWORD"
+    DISPLAY: "&b&lMVP+ Rank ($25)"
+    CATEGORY: "ranks"
+    COST: 25
+    COMMANDS:
+      - "pex user {player} group set MVP+"
+      - "broadcast &b&l{player} purchased MVP+ rank and supported the server!"
+    LORE:
+      - "&7Purchase MVP+ rank for $25 and get awesome perks!"
+      - "&7MVP+s are able to use /nick, /heal, /home, /fly, /tp, and /feed!"
+
+  #Tags
+
+  GG:
+    POSITION: 10
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&a&lGG Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.gg"
+      - "broadcast &a&l{player} purchased GG Tag and supported the server!"
+    LORE:
+      - "&7Purchase the GG Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &a&lGG&7: &fHello World!"
+  EZ:
+    POSITION: 11
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&c&lEZ Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.ez"
+      - "broadcast &a&l{player} purchased EZ Tag and supported the server!"
+    LORE:
+      - "&7Purchase the EZ Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &c&lEZ&7: &fHello World!"
+  GOD:
+    POSITION: 12
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&6&lGOD Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.god"
+      - "broadcast &a&l{player} purchased GOD Tag and supported the server!"
+    LORE:
+      - "&7Purchase the GOD Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &6&lGOD&7: &fHello World!"
+  DAB:
+    POSITION: 13
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&b&lDAB Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.dab"
+      - "broadcast &a&l{player} purchased DAB Tag and supported the server!"
+    LORE:
+      - "&7Purchase the DAB Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &b&l<o/&7: &fHello World!"
+  USA:
+    POSITION: 14
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&c&lU&f&lS&b&lA&f&l Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.usa"
+      - "broadcast &a&l{player} purchased USA Tag and supported the server!"
+    LORE:
+      - "&7Purchase the USA Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &c&lU&f&lS&b&lA&7: &fHello World!"
+  WEEB:
+    POSITION: 15
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&e&lWEEB Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.weeb"
+      - "broadcast &a&l{player} purchased WEEB Tag and supported the server!"
+    LORE:
+      - "&7Purchase the WEEB Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &e&lweeb: &fHello World!"
+  HEART:
+    POSITION: 16
+    PASS_FEE: true
+    MATERIAL: "NAME_TAG"
+    DISPLAY: "&c&lHEART Tag ($5)"
+    CATEGORY: "tags"
+    COST: 5
+    COMMANDS:
+      - "pex user {player} add deluxetags.tag.heart"
+      - "broadcast &a&l{player} purchased HEART Tag and supported the server!"
+    LORE:
+      - "&7Purchase the HEART Tag for $5 to support the server!"
+      - "&7Chat Example: &fPlayer &c&l<3&7: &fHello World!"
+
+  #MISC
+
+  STATS_RESET:
+    POSITION: 12
+    PASS_FEE: true
+    MATERIAL: "PAPER"
+    DISPLAY: "&d&lStats Reset ($5)"
+    CATEGORY: "misc"
+    COST: 5
+    COMMANDS:
+      - "stats reset {player}"
+      - "broadcast &a&l{player} purchased Stats Reset and supported the server!"
+    LORE:
+      - "&7Purchase a Stats Reset for $5 to support the server!"
+      - "&7This package will completely wipe your statistics."
+  COINS:
+    POSITION: 14
+    PASS_FEE: true
+    MATERIAL: "GOLD_NUGGET"
+    DISPLAY: "&6&l1000 Coins ($5)"
+    CATEGORY: "misc"
+    COST: 5
+    COMMANDS:
+      - "addcoins {player} 1000"
+      - "broadcast &a&l{player} purchased 1000 Coins and supported the server!"
+    LORE:
+      - "&7Purchase 1000 Coins for $5 to support the server!"
+      - "&7This package will grant you with 1000 in-game Coins."
