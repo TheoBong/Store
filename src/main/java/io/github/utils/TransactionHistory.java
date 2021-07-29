@@ -14,16 +14,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+@SuppressWarnings("unchecked")
 public class TransactionHistory {
-    File folder;
-    String location = "transactions.json";
-    Map<String, JSONObject> transactions;
+    private final File folder;
+    private final String location = "transactions.json";
+    private Map<String, JSONObject> transactions;
 
     public TransactionHistory(Store store) {
         folder = store.getDataFolder();
-        transactions = new HashMap<String, JSONObject>();
+        transactions = new HashMap<>();
     }
-
 
     public void exportConfig() {
         File file = new File(folder, location);
@@ -59,8 +59,7 @@ public class TransactionHistory {
                 fileWriter.write(mainObject.toJSONString());
                 fileWriter.close();
             }
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
 
         File newFile = new File(folder, location);
 
@@ -80,8 +79,7 @@ public class TransactionHistory {
                 e.printStackTrace();
             }
 
-        } catch (FileNotFoundException e) {
-        }
+        } catch (FileNotFoundException ignored) {}
 
 
     }
@@ -106,9 +104,7 @@ public class TransactionHistory {
     public void addTransaction(String orderId, JSONObject transaction) {
         transactions.put(orderId, transaction);
 
-        new Thread(() -> {
-            exportConfig();
-        }).start();
+        new Thread(this::exportConfig).start();
     }
 
 }

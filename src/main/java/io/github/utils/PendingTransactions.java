@@ -14,16 +14,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+@SuppressWarnings("unchecked")
 public class PendingTransactions {
-    File folder;
-    String location = "pending.json";
-    Map<String, JSONObject> transactions;
+    private final File folder;
+    private final String location = "pending.json";
+    private Map<String, JSONObject> transactions;
 
     public PendingTransactions(Store store) {
         folder = store.getDataFolder();
-        transactions = new HashMap<String, JSONObject>();
+        transactions = new HashMap<>();
     }
-
 
     public void exportConfig() {
         File file = new File(folder, location);
@@ -59,8 +59,7 @@ public class PendingTransactions {
                 fileWriter.write(mainObject.toJSONString());
                 fileWriter.close();
             }
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
 
         File newFile = new File(folder, location);
 
@@ -80,8 +79,7 @@ public class PendingTransactions {
                 e.printStackTrace();
             }
 
-        } catch (FileNotFoundException e) {
-        }
+        } catch (FileNotFoundException ignored) {}
     }
 
     public Map<String, JSONObject> pendingTransactionList() {
@@ -128,9 +126,7 @@ public class PendingTransactions {
     public void removePendingTransaction(String orderId) {
         transactions.remove(orderId);
 
-        new Thread(() -> {
-            exportConfig();
-        }).start();
+        new Thread(this::exportConfig).start();
     }
 
     public void removePendingPlayer(String playerUUID) {
@@ -146,17 +142,13 @@ public class PendingTransactions {
             }
         }
 
-        new Thread(() -> {
-            exportConfig();
-        }).start();
+        new Thread(this::exportConfig).start();
     }
 
     public void addPendingTransaction(String orderId, JSONObject transaction) {
         transactions.put(orderId, transaction);
 
-        new Thread(() -> {
-            exportConfig();
-        }).start();
+        new Thread(this::exportConfig).start();
     }
 
 }

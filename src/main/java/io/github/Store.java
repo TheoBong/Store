@@ -9,7 +9,6 @@ import io.github.paypal.CaptureTask;
 import io.github.utils.PendingTransactions;
 import io.github.utils.TransactionHistory;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
@@ -24,7 +23,6 @@ import java.util.logging.Level;
 
 public class Store extends JavaPlugin {
     private CommandMap commandMap;
-    @Getter @Setter private Boolean serverScanning = false;
 
     @Getter private PendingTransactions pendingTransactions;
     @Getter private TransactionHistory transactionHistory;
@@ -89,7 +87,7 @@ public class Store extends JavaPlugin {
         commandMap.register(command.getName(), command);
     }
 
-    public static ItemBuilder getItemFromMaterialString(Player player, String materialString) {
+    public ItemBuilder getItemFromMaterialString(Player player, String materialString) {
         if (materialString.startsWith("head:")) {
             String owner = materialString.split(":")[1];
             if (owner.equals("auto")) {
@@ -103,7 +101,7 @@ public class Store extends JavaPlugin {
                 return new ItemBuilder(material);
             } catch (IllegalArgumentException e) {
                 player.sendMessage("Invalid item name " + materialString.toUpperCase());
-                player.sendMessage("https://github.com/ServerSelectorX/ServerSelectorX/wiki/Item-names");
+                player.sendMessage("https://helpch.at/docs/1.8/org/bukkit/Material.html");
                 return new ItemBuilder(Material.COBBLESTONE);
             }
         }

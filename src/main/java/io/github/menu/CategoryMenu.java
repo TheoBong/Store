@@ -47,7 +47,7 @@ public class CategoryMenu extends IconMenu {
                 return;
             }
 
-            ItemBuilder builder = Store.getItemFromMaterialString(player, materialString);
+            ItemBuilder builder = store.getItemFromMaterialString(player, materialString);
 
             builder.amount(amount);
             builder.coloredName(PlaceholderUtil.parsePapiPlaceholders(player, display));

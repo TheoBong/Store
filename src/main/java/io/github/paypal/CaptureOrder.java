@@ -20,7 +20,6 @@ public class CaptureOrder {
 
     @SuppressWarnings("unchecked")
     public static void capture(Store store, String orderId, String item, String playerUUID, double cost, long expiry) {
-
         Order order;
         OrdersCaptureRequest request = new OrdersCaptureRequest(orderId);
 
@@ -75,7 +74,7 @@ public class CaptureOrder {
                 System.out.println(he.getMessage());
             } else {
                 // Something went wrong client-side
-                System.out.println("U-oh! I made a fucky wucky");
+                System.out.println("Uh-oh! I made a fucky wucky");
             }
         }
     }
