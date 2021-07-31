@@ -2,7 +2,7 @@
 This plugin allows server owners to accept payments directly through the game without going through a WebStore such as CraftingStore or BuyCraft.
 
 To download the plugin, visit: https://github.com/Cowings/Store/releases
-Note: You must have a PayPal buisness account to use this plugin. Register a buisness account here (completely free): https://www.paypal.com/bizsignup
+Note: You must have a PayPal business account to use this plugin. Register a business account here (completely free): https://www.paypal.com/bizsignup
 
 Features:
 * **Completely configurable and dynamic** - all GUIs and Menus are fully configurable. This includes titles, items, rows, everything!
@@ -11,7 +11,7 @@ Features:
 
 ## Frequently Asked Questions
 * **What are the commands?** - use /store help to find all commands and usages. (admin commands only show up if you have perms)
-* **I have a PayPal buisness account, how do I get the secret and client-id?** - create an APP here: https://developer.paypal.com/developer/applications
+* **I have a PayPal business account, how do I get the secret and client-id?** - create an APP here: https://developer.paypal.com/developer/applications
 * **What are the permission nodes?** store.admin to use "/store reload" & "/lookup"
 * **I found a bug, what do I do?** - open a new issue at https://github.com/Cowings/Store/issues
 
