@@ -1,7 +1,7 @@
 # Store Plugin
 This plugin allows server owners to accept payments directly through the game without going through a WebStore such as CraftingStore or BuyCraft.
 
-To download the plugin, visit: https://github.com/Cowings/Store/releases
+To download the plugin, visit: https://github.com/TheoBong/Store/releases
 Note: You must have a PayPal business account to use this plugin. Register a business account here (completely free): https://www.paypal.com/bizsignup
 
 Features:
@@ -13,7 +13,7 @@ Features:
 * **What are the commands?** - use /store help to find all commands and usages. (admin commands only show up if you have perms)
 * **I have a PayPal business account, how do I get the secret and client-id?** - create an APP here: https://developer.paypal.com/developer/applications
 * **What are the permission nodes?** store.admin to use "/store reload" & "/lookup"
-* **I found a bug, what do I do?** - open a new issue at https://github.com/Cowings/Store/issues
+* **I found a bug, what do I do?** - open a new issue at https://github.com/TheoBong/Store/issues
 
 ## Building
 Store Plugin uses Maven to handle dependencies & building.
@@ -24,7 +24,7 @@ Store Plugin uses Maven to handle dependencies & building.
 
 #### Compiling from source
 ```sh
-git clone https://github.com/Cowings/Store
+git clone https://github.com/TheoBong/Store
 git clone https://github.com/Derkades/Derkutils/tree/legacy
 cd Derkutils
 mvn clean install
@@ -47,4 +47,4 @@ Please make sure to have bug fixes/improvements in seperate pull requests from n
 * Optimizations
 
 ## License
-Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/Cowings/Store/blob/master/LICENSE.txt) for more info.
+Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/TheoBong/Store/blob/master/LICENSE.txt) for more info.
