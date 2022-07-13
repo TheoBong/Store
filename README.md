@@ -47,4 +47,4 @@ Please make sure to have bug fixes/improvements in seperate pull requests from n
 * Optimizations
 
 ## License
-Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE`](https://github.com/TheoBong/Store/blob/master/LICENSE.txt) for more info.
+Store Plugin is licensed under the permissive MIT license. Please see [`LICENSE`](https://github.com/TheoBong/Store/blob/master/LICENSE) for more info.
